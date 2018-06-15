@@ -1,0 +1,411 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+
+body {
+	font-family: "Trebuchet MS", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Tahoma, sans-serif;
+	position:fixed;
+	margin:0;
+	padding:0;
+	background-color:#EEE;
+	width:100%;
+	height:100%;
+}
+
+
+sup { 
+    vertical-align: super;
+    font-size: 0.7em;
+}
+
+small {
+	font-size: 0.7em;
+}
+
+
+b { 
+    font-weight: bold;
+}
+
+i {
+	font-style: italic;	
+}
+
+p {
+    display: block;
+	font-weight: normal;
+	line-height: 1.6em;
+}
+
+h1 { 
+    display: block;
+    font-size: 2em;
+    font-weight: bold;
+	line-height: 1.5em;
+}
+
+h2 {
+    display: block;
+    font-size: 1.5em;
+    font-weight: bold;
+	line-height: 1.7em;
+}
+
+h3 {
+    display: block;
+    font-size: 1.3em;
+    font-weight: bold;
+	line-height: 1.8em;
+}
+
+
+
+#divIntro {
+	pointer-events: none;
+	z-index:99;
+	text-align:center;
+	width:100%;
+	position:absolute;
+	top:1em;
+	opacity:0;
+	-webkit-animation: fadeInOut 20s;
+   animation: fadeInOut 20s;
+}
+
+@keyframes fadeInOut {
+    0% {
+        opacity: 0;
+    }
+    8% {
+       opacity: 1;
+    }
+    50% {
+       opacity: 1;
+    }
+    100% {
+       opacity: 0;
+    }
+}
+ 
+ .fadeOut {
+	-webkit-animation-name: fadeOut;
+	animation-name: fadeOut;
+ }
+
+#divAuteur {
+	width: 100vw; 
+    height: 1vw; 
+
+	max-width: 100vh; 
+    max-height: 1vh;
+	text-align:right;
+	z-index:99;
+	pointer-events:none;
+	opacity:0.3;
+	position:absolute;
+	bottom:1em;
+	right:1em;
+}
+
+#divcpt10 {
+	position:absolute;
+	bottom:0.5em;
+	right:1em;
+	text-align:right;
+	font-size:0.5em;
+}
+
+
+#divTitre {
+	width: 100vw; 
+    height: 5vw; 
+
+	max-width: 100vh; 
+    max-height: 5vh;
+	
+	text-align:center;
+	margin:auto;
+	position:absolute;
+	left:50%;
+	transform:translateX(-50%);
+	top:0vw;
+}
+
+#divParam {
+	border:1px solid black;
+	position:absolute;
+	
+	width: 100vw; 
+    height: 100vw; 
+
+	max-width: 80vh; 
+    max-height: 80vh;
+    
+    margin: auto;
+    position: absolute;
+	
+    top:0;bottom:0; /* vertical center */
+    left:0;right:0; /* horizontal center */
+
+	z-index:5;
+	background-color:white;
+}
+
+#divNoSex {
+	display:none;
+	font-style:italic;
+	color:#700;
+	text-align:center;
+	font-size:1.3em;
+	position:absolute;
+	left:3%;
+	top:58%;
+	width:16%;
+	height:30%;
+	z-index:5;
+	background-color:white;
+	
+}
+
+#divModele {
+	outline:1px solid black;
+	position:absolute;
+	
+	width: 100vw; 
+    height: 50vw; 
+
+	max-width: 170vh; 
+    max-height: 85vh;
+    
+    margin: auto;
+    position: absolute;
+	
+    top:0;bottom:0; /* vertical center */
+    left:0;right:0; /* horizontal center */
+
+	z-index:5;
+	background-color:white;
+	
+	transform:translateY(0.5em);
+}
+
+
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+.nodrag {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+}
+
+input[type="text"]{
+	font-size:inherit;
+	border:1px solid #555;
+}
+
+input[type="number"]{
+	font-size:inherit;
+	width:5em;
+	border:1px solid #555;
+	text-align:center;
+	padding:0;
+	margin:0;
+}
+
+input[type="checkbox"]{
+	-moz-appearance: none;  /* Override default CSS styles */
+    -webkit-appearance: none;  /* Override default CSS styles */
+    appearance: none;
+
+	border:1px solid #555;
+	
+	font-size:inherit;
+	transform: translate(-0.3em, 0.3em);
+	width:1em;
+	height:1em;
+	
+	cursor:pointer;
+}
+
+input[type="checkbox"]:checked {
+    background: url('../images/checkmark.png');
+	background-size: contain; 
+}
+
+select {
+	font-size:inherit;
+}
+
+[tooltip]:before {
+    /* needed - do not touch */
+    content: attr(tooltip);
+    position: absolute;
+    opacity: 0;
+    
+    /* customizable */
+	z-index:99;
+	font-size:0.6em;
+    transition: all 0.15s ease;
+    padding: 1em;
+    color: #333;
+	border:1px solid  rgba(100,100, 100, 0.5);
+    border-radius: 1em;
+    box-shadow: 0.25em 0.25em 0.1em silver;    
+}
+
+[tooltip]:hover:before {
+    /* needed - do not touch */
+    opacity: 1;
+    
+    /* customizable */
+    background: rgba(255,255, 150, 0.8);
+    margin-top: 3em;
+    margin-left: 2em;    
+}
+
+[tooltip]:not([tooltip-persistent]):before {
+    pointer-events: none;
+} 
+
+
+
+.slidecontainer {
+    width: 100%; /* Width of the outside container */
+	font-size:inherit;
+}
+
+/* The slider itself */
+.slider {
+	margin:0;
+	left:0;
+	padding:0;
+	font-size:inherit;
+	-moz-appearance: none;  /* Override default CSS styles */
+    -webkit-appearance: none;  /* Override default CSS styles */
+    appearance: none;
+    width: 100%; /* Full-width */
+    height: 50%; /* Specified height */
+    background: #aaa; /* Grey background */
+    outline: none; /* Remove outline */
+    opacity: 0.5; /* Set transparency (for mouse-over effects on hover) */
+    -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+    transition: opacity .2s;
+}
+
+/* Mouse-over effects */
+.slider:hover {
+    opacity: 1; /* Fully shown on mouse-over */
+}
+
+/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */ 
+.slider::-webkit-slider-thumb {
+
+	
+	-webkit-appearance: none;
+    appearance: none;
+	width: 1em;
+    height: 1em;
+    border: 0;
+    background: url('../images/contrasticon.png');
+	background-size: cover; 
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+	width: 1em;
+    height: 1em;
+    border: 0;
+    background: url('../images/contrasticon.png');
+	background-size: cover; 
+    cursor: pointer;
+}
+
+.bouton {
+	width:2em;
+	height:1em;
+	margin: 0 auto;
+	font-size:1.2em;
+    background-color: #666666; 
+    border: none;
+    color: white;
+    padding: 0.5em 1em;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+	border-radius: 1em;
+	cursor:pointer;
+	background-size: 1.4em;
+	background-repeat: no-repeat;
+	background-position: center; 
+}
+
+.bouton:hover {
+	background-color: #888888;
+}
+
+.bouton:active {
+	box-shadow: 0px 0px 0.5em 0em #FFF inset;
+}
+
+
+.ombrecadre {
+	box-shadow: 0px 0px 1em 0.5em #AAA;
+}
+
+
+.rTable { display: table; line-height: 1.5em; }
+.rTableRow { display: table-row; }
+.rTableHeading { display: table-header-group; }
+.rTableBody { display: table-row-group; }
+.rTableFoot { display: table-footer-group; }
+.rTableCell, .rTableHead { display: table-cell;padding-right:0.5em; }
+.rTableHead {font-weight:bold;}
+
+#divTableFreq {
+	border-collapse: collapse;
+	border:1px solid;
+	vertical-align:middle;
+}
+
+#divTableFreq .rTableCell {
+	border:1px solid;
+	padding-left:0.5em;
+	text-align:center;
+}
+
+#divTableFreq .rTableHead {
+	border:1px solid;
+	padding-left:0.5em;
+	vertical-align:middle;
+	text-align:center;
+}
+
