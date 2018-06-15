@@ -1,0 +1,199 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta property="og:title" content="Dérive génétique - modèle diploïde" />
+	<meta property="og:description" content="Un modèle diploïde pour enseigner la dérive génétique." />
+	<meta property="og:image" content="" />
+	<meta name="twitter:description" content="Un modèle diploïde pour enseigner la dérive génétique." />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<title>Dérive génétique - modèle diploïde</title>
+	<link rel="icon" href="images/favicon.png" />
+	<link rel="stylesheet" href="css/style.css">
+
+	<script src="js/common.js"></script>
+	<script src="js/jscolor.min.js"></script>
+	<script src="js/gestCanv.js"></script>
+	<script src="js/gestDraw.js"></script>
+	<script src="js/gestAnim.js"></script>
+	<script src="js/gestGraph.js"></script>
+	<script src="js/controles.js"></script>
+	<script src="js/init.js"></script>
+
+</head>
+
+<body style="display:none" onkeypress="clavier(event)" onresize="redim()">
+	<div id="divAuteur">Auteur : P. COSENTINO</div>
+
+	<div id="divTitre">
+		<h1>Dérive génétique, modèle diploïde</h1>
+	</div>
+	
+	
+	<div id="divModele" class="ombrecadre">
+		<canvas id="canv" style="position:absolute;top:0;left:0;width:50%;height:calc(100% - 2px);pointer-events:none;"></canvas>
+		<canvas id="canvGraph" style="position:absolute;top:0;left:50%;width:50%;height:50%;pointer-events:none;background-color:white;"></canvas>
+		<canvas id="canvAnim" style="position:absolute;top:0;left:0;width:50%;height:calc(100% - 2px);z-index:10;pointer-events:none;"></canvas>
+		
+		<div id="divVitesse" class="noselect" style="position:absolute;bottom:2%;left:28%;width:25%;height:1.2em;font-size:0.8em;">
+			<div style="position:absolute;height:100%;width:18%;text-align:right;top:0;left:0;vertical-align:middle;">lent&nbsp;</div>
+			<div style="position:absolute;height:100%;top:0;left:18%;width:64%;">
+				<input id="rangeVitesse" type="range" min="0.25" max="5" step="any" value="1" class="slider" oninput="changeVit(this.value)">
+			</div>
+			<div style="position:absolute;height:100%;top:0;right:0;width:18%;text-align:left;vertical-align:middle;">&nbsp;rapide</div>
+		</div>
+		<div id="divBoutonsMod" class="noselect" style="position:absolute;bottom:18%;left:29%;font-size:1em">
+			<div id="divButReproAlea" title="Engendrer un enfant (touche [espace])" class="bouton noselect" onclick="reproAlea()" style="background-image: url('images/butde.png');">&nbsp;</div>
+			<div id="divButReproAll" title="Engendrer tous les enfants (touche [0])" class="bouton noselect" onclick="reproAll()" style="background-image: url('images/butdes.png');">&nbsp;</div>
+			<div id="divButRepro10" title="Avancer de 10 générations (touche [1])" class="bouton noselect" onclick="repro10()" style="background-image: url('images/butdes.png');">&nbsp;<div id="divcpt10">10&times;</div></div>			
+		</div>
+		<div id="divBoutonsMod2" class="noselect" style="position:absolute;bottom:9%;left:29%;font-size:1em">
+			<div id="divButReproFast" title="Activer/désactiver le mode instantané" class="bouton noselect" onclick="reproFast()" style="background-image: url('images/butff.png');">&nbsp;</div>
+			<div id="divButReset" title="Relancer le modèle" class="bouton noselect" onclick="reinit()" style="background-image: url('images/butrestart.png');">&nbsp;</div>
+			<div id="divButConfig" title="Reparamétrer le modèle" class="bouton noselect" onclick="reconf()" style="background-image: url('images/butconfig.png');">&nbsp;</div>
+		</div>
+		
+		<div id="divNoSex">Aucune reproduction n'est possible<br><br>(un seul sexe représenté)</div>
+		
+		<div id="divLegendes" style="position:absolute;top:55%;left:55%;width:45%;height:45%;pointer-events:none;font-size:0.9em">
+			<p><b>Légende des allèles:</b>	<span id="spanLegAll"></span> </p>
+			<br>
+			<p><b>Fréquences pour la génération n°<label id="labelNumGen">0</label></b> : </p>
+			<!-- tableau fréquences -->
+			<div style="padding-left:1em;font-size:0.9em;">
+				<div id="divTableFreq" class="rTable">
+					<div class="rTableRow">
+					<div class="rTableHead">Allèle</div>
+					<div class="rTableHead">Occurrences</div>
+					<div class="rTableHead">Fréquence</div>
+					<div class="rTableHead">Disparu à la <br>génération n°</div>
+					</div>
+					
+					<div class="rTableRow" id="rowAll1">
+					<div class="rTableCell"><label id="labelNomAll1"></label></div>
+					<div class="rTableCell" id="occAll1">A</div>
+					<div class="rTableCell" id="freqAll1">#FFF</div>
+					<div class="rTableCell" id="dispAll1">A</div>
+					</div>
+					
+					<div class="rTableRow" id="rowAll2">
+					<div class="rTableCell"><label id="labelNomAll2"></label></div>
+					<div class="rTableCell" id="occAll2">B</div>
+					<div class="rTableCell" id="freqAll2">#FFF</div>
+					<div class="rTableCell" id="dispAll2">A</div>
+					</div>
+					
+					<div class="rTableRow" id="rowAll3">
+					<div class="rTableCell"><label id="labelNomAll3"></label></div>
+					<div class="rTableCell" id="occAll3">O</div>
+					<div class="rTableCell" id="freqAll3">#FFF</div>
+					<div class="rTableCell" id="dispAll3">A</div>
+					</div>
+					
+					<div class="rTableRow" id="rowAll4">
+					<div class="rTableCell"><label id="labelNomAll4"></label></div>
+					<div class="rTableCell" id="occAll4">-</div>
+					<div class="rTableCell" id="freqAll4">----</div>
+					<div class="rTableCell" id="dispAll4">A</div>
+					</div>
+					
+					<div class="rTableRow" id="rowAll5">
+					<div class="rTableCell"><label id="labelNomAll5"></label></div>
+					<div class="rTableCell" id="occAll5">-</div>
+					<div class="rTableCell" id="freqAll5">----</div>
+					<div class="rTableCell" id="dispAll5">A</div>
+					</div>
+				</div>
+			</div>
+			<!-- fin tableau fréquences -->
+		</div>
+	</div>
+	
+	<div id="divParam" class="ombrecadre">
+		<div style="padding:2em">
+			<h2>Paramétrage du modèle</h2>
+			<br>
+			
+			<h3>Paramètres globaux :</h3>
+			<div style="padding-left:1em">
+				<div class="rTable">
+					<div class="rTableRow">
+					<div class="rTableCell">Nombre d'individus (4-100) : </div>
+					<div class="rTableCell"><input type="number" id="inputEff"  oninput="checkRange(this)" value="9" max="100" min="4"></div>
+					</div>
+					
+					<div class="rTableRow">
+					<div class="rTableCell">Nombre initial d'allèles (2-5): </div>
+					<div class="rTableCell"><input type="number" id="inputNbAll" oninput="checkRange(this);recalcTabSaisieAll();" value="3" max="5" min="2"></div>
+					</div>
+				</div>
+			</div>
+			
+			<br>
+			<h3>Définition des allèles :</h3>
+			<div style="padding-left:1em">
+				<div class="rTable">
+					<div class="rTableRow" >
+					<div class="rTableHead">N°</div>
+					<div class="rTableHead">Nom</div>
+					<div class="rTableHead">Couleur</div>
+					</div>
+					
+					<div class="rTableRow" id="rowiAll1">
+					<div class="rTableCell">1</div>
+					<div class="rTableCell"><input type="text" id="inputAll1" value="A" maxlength="4" style="width:4em"></div>
+					<div class="rTableCell"><input id="inputCoul1" class="jscolor" style="font-size:1em;width:6em" value="9966cc"></div>
+					</div>
+					
+					<div class="rTableRow" id="rowiAll2">
+					<div class="rTableCell">2</div>
+					<div class="rTableCell"><input type="text" id="inputAll2" value="B" maxlength="4" style="width:4em"></div>
+					<div class="rTableCell"><input id="inputCoul2" class="jscolor" style="font-size:1em;width:6em" value="dd4444"></div>
+					</div>
+					
+					<div class="rTableRow" id="rowiAll3">
+					<div class="rTableCell">3</div>
+					<div class="rTableCell"><input type="text" id="inputAll3" value="O" maxlength="4" style="width:4em"></div>
+					<div class="rTableCell"><input id="inputCoul3" class="jscolor" style="font-size:1em;width:6em" value="ccaa00"></div>
+					</div>
+					
+					<div class="rTableRow" id="rowiAll4">
+					<div class="rTableCell">4</div>
+					<div class="rTableCell"><input type="text" id="inputAll4" value="A2" maxlength="4" style="width:4em"></div>
+					<div class="rTableCell"><input id="inputCoul4" class="jscolor" style="font-size:1em;width:6em" value="0088ee"></div>
+					</div>
+					
+					<div class="rTableRow" id="rowiAll5">
+					<div class="rTableCell">5</div>
+					<div class="rTableCell"><input type="text" id="inputAll5" value="A3" maxlength="4" style="width:4em"></div>
+					<div class="rTableCell"><input id="inputCoul5" class="jscolor" style="font-size:1em;width:6em" value="99cc66"></div>
+					</div>
+				</div>
+			</div>
+		
+			<br>
+			<h3>Paramètres avancés :</h3>
+			<div style="padding-left:1em">
+				<p>Probabilité de mutation (%) : <input type="text" id="inputMut"  oninput="checkRange(this)" value="0" max="100" min="0" style="width:5em" maxlength="6"></p>
+				<p>Garantir la présence des deux sexes : <input type="checkbox" id="checkSex" checked></p>
+			</div>
+		</div>
+		
+		<div style="position:absolute;bottom:1em;margin:auto;left:50%;transform:translateX(-50%);">
+			<div id="divButOK" class="bouton noselect" onclick="clickOKParam()">OK</div>
+		</div>			
+
+	</div>
+
+	<script>
+
+		go();
+
+	</script>
+	
+</body>
+
+
+
+</html>
